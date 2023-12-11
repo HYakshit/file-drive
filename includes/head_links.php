@@ -7,7 +7,9 @@
 <!-- Custom stylesheet - for your changes-->
 <!-- Include jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<!-- <link rel="stylesheet" href="../assets/css/custom.css"> -->
 <!-- Favicon-->
 <link rel="shortcut icon" href="../assets/img/favicon.ico">
 <link rel="shortcut icon" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
+<!-- fa -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">

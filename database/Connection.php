@@ -1,5 +1,6 @@
 <?php
   $target_dir = "uploads/";
+  /*
   if (empty($_FILES["fileToUpload"]["name"])) {
       echo "<script>alert('Please select a file to upload.')</script>";
   } else {
@@ -29,7 +30,7 @@
               echo "<script>alert('Some error occoured')</script>";
           }
       }
-  }
+  } */
 class Connection
 {
   protected $servername;
@@ -51,11 +52,11 @@ class Connection
       $this->connection_warning = "Connection failed";
     }
   }
-  public function update($name, $email,$password,$gender,$img_url)
+  public function update($name, $email,$password,$gender,$img_url,$id)
   { // to store user who have permission
 
-    $query = $this->conn->prepare("update admin set name = ?, email= ? , password= ?, gender= ? , img_url = ?");
-    $query->execute([$name, $email,$password,$gender,$img_url]);
+    $query = $this->conn->prepare("update admin set name = ?, email= ? , password= ?, gender= ? , img_url = ? where id = ?");
+    $query->execute([$name, $email,$password,$gender,$img_url,$id]);
 
     if ($query) {
       echo "inserted";
