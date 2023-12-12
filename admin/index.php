@@ -3,9 +3,11 @@
 if (!isset($_SESSION["admin"])) {
   header("location:../");
 }
-require("../database/connection.php");
-$obj = new connection();
+require("../database/Connection.php");
+$obj = new Connection();
 $data = $obj->getdata($_SESSION['admin']['id']);
+// print_r($data);
+// exit();
 $_SESSION['img'] = $data['img_url'];
 // echo"<pre>";
 // print_r($_SESSION['img']);
@@ -49,8 +51,7 @@ if ($data['gender'] == 'male') {
               <form id="formid" method="post" enctype="multipart/form-data">
                 <!-- show img -->
                 <div class="d-flex mb-2 justify-content-center">
-                  <img id="img" class="img-fluid img-thumbnail rounded-circle"
-                    src="../assets/img/<?= $_SESSION['img'] ?>" alt="...">
+                  <img id="img" class="img-fluid img-thumbnail rounded-circle" src="../assets/img/<?= $_SESSION['img'] ?>" alt="...">
                 </div>
                 <!-- get img -->
                 <div class="form-group  mb-2">
@@ -76,35 +77,57 @@ if ($data['gender'] == 'male') {
                   <input class="form-control" name="current_password" type="password" id="current_password">
                   <span class="text-danger  fw-bold" id="cupassword_err"></span>
                 </div>
-                <!-- new Password -->
-                <div>
-                  <label for="new_password">New Password</label>
-                  <input class="form-control" name="new_password" type="password" id="new_password">
-                  <span class="text-danger  fw-bold" id="password_err"></span>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn mt-1 btn-primary w-100"  data-toggle="modal" data-target="#exampleModal">
+                 change Password
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <!-- new Password -->
+                        <div>
+                          <label for="new_password">New Password</label>
+                          <input class="form-control" name="new_password" type="password" id="new_password">
+                          <span class="text-danger  fw-bold" id="password_err"></span>
+                        </div>
+                        <!-- confirm password -->
+                        <div>
+                          <label for="confirm_password">Confirm Password</label>
+                          <input class="form-control" name="confirm_password" type="password" id="confirm_password">
+                          <span class="text-danger  fw-bold" id="password_err"></span>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <!-- confirm password -->
-                <div>
-                  <label for="confirm_password">Confirm Password</label>
-                  <input class="form-control" name="confirm_password" type="password" id="confirm_password">
-                  <span class="text-danger  fw-bold" id="password_err"></span>
-                </div>
+
                 <!-- gender -->
                 <div class="form-group">
                   <label>Select Gender</label>
                   <div class="form-check">
                     <input class="form-check-input" type="radio" name="gender" <?php if ($male) {
-                      echo "checked";
-                    } ?>
-                      value="male" id="male">
+                                                                                  echo "checked";
+                                                                                } ?> value="male" id="male">
                     <label class="form-check-label" for="male">
                       male
                     </label>
                   </div>
                   <div class="form-check">
                     <input class="form-check-input" type="radio" <?php if (!$male) {
-                      echo "checked";
-                    } ?> name="gender"
-                      value="female" id="female">
+                                                                    echo "checked";
+                                                                  } ?> name="gender" value="female" id="female">
                     <label class="form-check-label" for="female">
                       Female
                     </label>
@@ -114,7 +137,7 @@ if ($data['gender'] == 'male') {
                 <!-- status -->
                 <div id="status"></div>
                 <!-- submit -->
-                <input type="submit" id="submit" value="submit" class=" btn btn-primary btn-sm">
+                <input type="submit" id="submit" value="Update" class=" btn btn-primary btn-sm">
               </form>
             </div>
           </div>
@@ -128,8 +151,8 @@ if ($data['gender'] == 'male') {
   <?php require_once('../includes/footer_links.php'); ?>
 </body>
 <script>
-  $(document).ready(function () {
-    $('#formid').submit(function (event) {
+  $(document).ready(function() {
+    $('#formid').submit(function(event) {
       event.preventDefault(); // Prevent the default form submission
       // Get values from form inputs
       var id = $('#id').val();
@@ -140,6 +163,11 @@ if ($data['gender'] == 'male') {
       var confirm_password = $('input[name="confirm_password"]').val();
       if (new_password != confirm_password) {
         $("#status").html(`<p class="alert alert-danger">New password and confirm Password not matching</p>`);
+        refreshErrors();
+        return;
+      }
+      if (!current_password) {
+        $("#status").html(`<p class="alert alert-danger">Current Password is empty</p>`);
         refreshErrors();
         return;
       }
@@ -164,7 +192,7 @@ if ($data['gender'] == 'male') {
         data: formData,
         contentType: false,
         processData: false,
-        success: function (response) {
+        success: function(response) {
           console.log(response);
           if (response == 'success') {
             // $("#status").html(`<p class="alert alert-success">Successfully uploaded</p>`);
@@ -175,8 +203,9 @@ if ($data['gender'] == 'male') {
           }
         },
       });
+
       function refreshErrors() {
-        setTimeout(function () {
+        setTimeout(function() {
           $("#status").html('');
         }, 3000);
       }
@@ -187,7 +216,6 @@ if ($data['gender'] == 'male') {
       // }
     });
   });
-
 </script>
 
 </html>

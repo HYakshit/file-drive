@@ -9,16 +9,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $current_password = $_POST['current_password'];
-    $new_password = $_POST['new_password'];
     $gender = $_POST['gender'];
     if ($current_password != $_SESSION['admin']['password']) {
         echo "Wrong Current Password!";
         return;
     }
-    $_SESSION['admin']['password']=$new_password;
+    if(0){
+        $new_password = $_POST['new_password'];
+        $obj->update($name, $email, $new_password, $gender, $img, $id);
+        $_SESSION['admin']['password']=$new_password;
+    }
     if (!isset($_FILES['img'])) {
         $img = $_SESSION['img'];
-        $obj->update($name, $email, $new_password, $gender, $img, $id);
+        $obj->update($name, $email, $current_password, $gender, $img, $id);
         return;
     }
     $img = $_FILES['img'];

@@ -16,19 +16,19 @@
       <div class="navbar-holder d-flex align-items-center justify-content-between w-100">
         <!-- Navbar Header-->
         <div class="navbar-header">
-          <!-- Navbar Brand --><a class="navbar-brand d-none d-sm-inline-block" href="index.php">
-            <div class="brand-text d-none d-lg-inline-block"><strong>Akshit Tour And TRAVEL</strong></div>
-            <div class="brand-text d-none d-sm-inline-block d-lg-none"><strong>BD</strong></div>
+          <!-- Navbar Brand -->
+          <a class="navbar-brand  d-sm-inline-block" href="index.php">
+            <div class="brand-text d-lg-inline-block"><strong>Files Drive</strong></div>
           </a>
         </div>
         <!-- Navbar Menu -->
         <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
           <!-- edit profile -->
-          <li class="nav-item"><a class="nav-link text-white" href="../admin/edit.php"> <span
+          <!-- <li class="nav-item"><a class="nav-link text-white" href="../admin/edit.php"> <span
                 class="d-none d-sm-inline">Edit Profile</span>
               <svg class="svg-icon svg-icon-xs svg-icon-heavy">
                 <use xlink:href="#security-1"></use>
-              </svg></a></li>
+              </svg></a></li> -->
           <!-- Logout    -->
           <li class="nav-item"><a class="nav-link text-white" href="../admin/logout.php"> <span
                 class="d-none d-sm-inline">Logout</span>

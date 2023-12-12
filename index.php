@@ -8,6 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['loginUsername'];
     $password = $_POST['loginPassword'];
     $result = $obj->checkUser($email, $password);
+    
     if ($result != null) {
       $_SESSION['admin'] = $result;
       // print_r( $_SESSION['admin']);

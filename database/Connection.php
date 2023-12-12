@@ -43,7 +43,7 @@ class Connection
   }
   public function getdata($id)
   {
-    $query = $this->conn->prepare("select * from admin where id =?");
+    $query = $this->conn->prepare("select * from admin where id = ?");
     $query->execute([$id]);
     $result = $query->fetch(PDO::FETCH_ASSOC);
     return $result;
