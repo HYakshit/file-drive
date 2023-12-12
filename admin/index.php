@@ -1,6 +1,6 @@
 <?php
 @session_start();
-if (!isset($_SESSION["name"])) {
+if (!isset($_SESSION["admin"])) {
   header("location:../");
 }
 require("../database/connection.php");
@@ -37,7 +37,7 @@ $obj = new connection();
         <section>
           <div class="row text-center brand-text mb-4">
             <h1>Welcome
-              <?php echo $_SESSION["name"] ?>
+              <?php print_r( $_SESSION['admin']['name']) ?>
             </h1>
           </div>
           <div class="row justify-content-center">

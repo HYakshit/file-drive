@@ -7,11 +7,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if (isset($_POST['submit'])) {
     $email = $_POST['loginUsername'];
     $password = $_POST['loginPassword'];
-    // $obj->store($email, $password);
     $result = $obj->checkUser($email, $password);
-    if ($result) {
-      $_SESSION['name'] = $email;
-      header('location:admin/');
+    if ($result != null) {
+      $_SESSION['admin'] = $result;
+      // print_r( $_SESSION['admin']);
+      // exit();
+      header('location:admin/index.php');
     } else {
       $warrning = 'Admin does not exists';
     }

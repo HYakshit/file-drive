@@ -1,35 +1,4 @@
 <?php
-  $target_dir = "uploads/";
-  if (empty($_FILES["fileToUpload"]["name"])) {
-      echo "<script>alert('Please select a file to upload.')</script>";
-  } else {
-      $temp_target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-      $newDir = $target_dir . strtolower(pathinfo($temp_target_file, PATHINFO_EXTENSION));
-     $extension_name=strtolower(pathinfo($temp_target_file, PATHINFO_EXTENSION));
-  //    echo $extension_name;
-      if($extension_name=='jpg' ||$extension_name=='img' || $extension_name=='heic' ||  $extension_name=='png'){
-
-          $_SESSION['showable'] = true;
-          // echo  $_SESSION['showable'];
-      }
-      if (!file_exists($newDir)) {
-          mkdir($newDir);
-      }
-      $_SESSION['image_path'] = $newDir . '/' . basename($_FILES["fileToUpload"]["name"]);
-      // $_SESSION['image_path'] = $target_file;
-      // check if file already exists
-      if (file_exists($_SESSION['image_path'])) {
-          echo "<script>alert('File Already exist')</script>";
-          // unset($_SESSION['image_path']);
-      } else {
-          $check = move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $_SESSION['image_path']);
-          if ($check) {
-              echo "<script>alert('File Uploaded')</script>";
-          } else {
-              echo "<script>alert('Some error occoured')</script>";
-          }
-      }
-  }
 class Connection
 {
   protected $servername;
@@ -51,31 +20,31 @@ class Connection
       $this->connection_warning = "Connection failed";
     }
   }
-  public function update($name, $email,$password,$gender,$img_url)
+  public function update($name, $email, $password, $gender, $img_name,$id)
   { // to store user who have permission
-
-    $query = $this->conn->prepare("update admin set name = ?, email= ? , password= ?, gender= ? , img_url = ?");
-    $query->execute([$name, $email,$password,$gender,$img_url]);
-
+    $query = $this->conn->prepare("update admin set name = ?, email= ? , password= ?, gender= ? , img_url = ? where id = ?");
+    $query->execute([$name, $email, $password, $gender, $img_name,$id]);
     if ($query) {
-      echo "inserted";
+      echo "success";
     } else {
-      echo "not inserted";
+      echo "Error While Updating";
     }
   }
+  
   public function checkUser($email, $password)
   {
     $query = $this->conn->prepare("select * from admin where email = ? and password = ?");
     $query->execute([$email, $password]);
-    $result = $query->fetchAll(PDO::FETCH_ASSOC);
-    if (count($result) > 0) {
-      return true;
+    $result = $query->fetch(PDO::FETCH_ASSOC);
+    if ($result != 0) {
+      return $result;
     }
-    return false;
+    return null;
   }
-  public function getdata(){
-    $query = $this->conn->prepare("select * from admin");
-    $query->execute();
+  public function getdata($id)
+  {
+    $query = $this->conn->prepare("select * from admin where id =?");
+    $query->execute([$id]);
     $result = $query->fetch(PDO::FETCH_ASSOC);
     return $result;
   }
