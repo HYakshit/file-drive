@@ -1,7 +1,7 @@
 <?php
 session_start();
 require("database/Connection.php");
-$obj = new connection();
+$obj = new Connection();
 $warrning = "";
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if (isset($_POST['submit'])) {
