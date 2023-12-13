@@ -17,18 +17,12 @@
         <!-- Navbar Header-->
         <div class="navbar-header">
           <!-- Navbar Brand --><a class="navbar-brand d-none d-sm-inline-block" href="index.php">
-            <div class="brand-text d-none d-lg-inline-block"><strong>Akshit Tour And TRAVEL</strong></div>
-            <div class="brand-text d-none d-sm-inline-block d-lg-none"><strong>BD</strong></div>
+            <div class="brand-text d-none d-lg-inline-block"><strong>File Drive</strong></div>
+            <div class="brand-text d-none d-sm-inline-block d-lg-none"><strong></strong></div>
           </a>
         </div>
         <!-- Navbar Menu -->
         <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
-          <!-- edit profile -->
-          <li class="nav-item"><a class="nav-link text-white" href="../admin/edit.php"> <span
-                class="d-none d-sm-inline">Edit Profile</span>
-              <svg class="svg-icon svg-icon-xs svg-icon-heavy">
-                <use xlink:href="#security-1"></use>
-              </svg></a></li>
           <!-- Logout    -->
           <li class="nav-item"><a class="nav-link text-white" href="../admin/logout.php"> <span
                 class="d-none d-sm-inline">Logout</span>

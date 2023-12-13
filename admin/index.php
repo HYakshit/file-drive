@@ -6,10 +6,12 @@ if (!isset($_SESSION["admin"])) {
 require("../database/connection.php");
 $obj = new connection();
 $data = $obj->getdata($_SESSION['admin']['id']);
-$_SESSION['img'] = $data['img_url'];
-// echo"<pre>";
-// print_r($_SESSION['img']);
-// exit();
+if(!empty($data['img_url'])){
+  $_SESSION['img'] = $data['img_url'];
+}else{
+
+  $_SESSION['img'] = 'default.jpg';
+}
 $male = false;
 if ($data['gender'] == 'male') {
   $male = true;

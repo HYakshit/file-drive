@@ -20,13 +20,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         return;
     }
     $img = $_FILES['img'];
-    $target_dir = "../assets/img/";
+    $target_dir = "../../assets/img/";
     $img_name = basename($img["name"]);
     $target_file = $target_dir . $img_name;
-    if ($_SESSION['img'] != 'default.jpg') {
+    if ($_SESSION['img'] !== 'default.jpg') {
+        // print_r($_SESSION['img']);
+        // exit();
         $img_to_delete = $target_dir . $_SESSION['img'];
         unlink($img_to_delete);
-        $_SESSION['img'] = $img_name;
+    
     }
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
@@ -40,5 +42,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         return;
     }
     $obj->update($name, $email, $current_password, $gender, $img_name, $id);
+    $_SESSION['img'] = $img_name;
 }
 ?>
