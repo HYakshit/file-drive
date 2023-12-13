@@ -48,5 +48,15 @@ class Connection
     $result = $query->fetch(PDO::FETCH_ASSOC);
     return $result;
   }
+  public function updatePassword($id, $new_password){
+    try{
+
+      $query = $this->conn->prepare("update admin set password = ? where id = ?");
+      $result =  $query->execute([$new_password,$id]);
+    }catch(Exception $e){
+      return false;
+    }
+   return true;
+  }
 }
 ?>
