@@ -6,7 +6,7 @@ if (!isset($_SESSION["admin"])) {
 require("../database/Connection.php");
 $obj = new Connection();
 $data = $obj->getdata($_SESSION['admin']['id']);
-
+// admin change
 if (!empty($data['img_url'])) {
   $_SESSION['img'] = $data['img_url'];
 } else {
