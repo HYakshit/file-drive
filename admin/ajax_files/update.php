@@ -2,7 +2,7 @@
 session_start();
 // print_r($_SESSION['admin']);
 // exit();
-require_once('../database/Connection.php');
+require_once('../../database/Connection.php');
 $obj = new Connection();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST['id'];
@@ -14,24 +14,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Wrong Current Password!";
         return;
     }
-    if(0){
-        $new_password = $_POST['new_password'];
-        $obj->update($name, $email, $new_password, $gender, $img, $id);
-        $_SESSION['admin']['password']=$new_password;
-    }
+
     if (!isset($_FILES['img'])) {
         $img = $_SESSION['img'];
         $obj->update($name, $email, $current_password, $gender, $img, $id);
         return;
     }
     $img = $_FILES['img'];
-    $target_dir = "../assets/img/";
+    $target_dir = "../../assets/img/";
     $img_name = basename($img["name"]);
     $target_file = $target_dir . $img_name;
-    if ($_SESSION['img'] != 'default.jpg') {
+    if ($_SESSION['img'] !== 'default.jpg') {
+        // print_r($_SESSION['img']);
+        // exit();
         $img_to_delete = $target_dir . $_SESSION['img'];
         unlink($img_to_delete);
-        $_SESSION['img'] = $img_name;
+    
     }
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
@@ -44,6 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error while uploading the image";
         return;
     }
-    $obj->update($name, $email, $new_password, $gender, $img_name, $id);
+    $obj->update($name, $email, $current_password, $gender, $img_name, $id);
+    $_SESSION['img'] = $img_name;
 }
 ?>

@@ -6,12 +6,13 @@ if (!isset($_SESSION["admin"])) {
 require("../database/Connection.php");
 $obj = new Connection();
 $data = $obj->getdata($_SESSION['admin']['id']);
-// print_r($data);
-// exit();
-$_SESSION['img'] = $data['img_url'];
-// echo"<pre>";
-// print_r($_SESSION['img']);
-// exit();
+
+if (!empty($data['img_url'])) {
+  $_SESSION['img'] = $data['img_url'];
+} else {
+
+  $_SESSION['img'] = 'default.jpg';
+}
 $male = false;
 if ($data['gender'] == 'male') {
   $male = true;
@@ -78,41 +79,9 @@ if ($data['gender'] == 'male') {
                   <span class="text-danger  fw-bold" id="cupassword_err"></span>
                 </div>
                 <!-- Button trigger modal -->
-                <button type="button" class="btn mt-1 btn-primary w-100"  data-toggle="modal" data-target="#exampleModal">
-                 change Password
+                <button type="button" class="btn mt-2 btn-primary w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  Change Password
                 </button>
-
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <!-- new Password -->
-                        <div>
-                          <label for="new_password">New Password</label>
-                          <input class="form-control" name="new_password" type="password" id="new_password">
-                          <span class="text-danger  fw-bold" id="password_err"></span>
-                        </div>
-                        <!-- confirm password -->
-                        <div>
-                          <label for="confirm_password">Confirm Password</label>
-                          <input class="form-control" name="confirm_password" type="password" id="confirm_password">
-                          <span class="text-danger  fw-bold" id="password_err"></span>
-                        </div>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
                 <!-- gender -->
                 <div class="form-group">
                   <label>Select Gender</label>
@@ -144,6 +113,44 @@ if ($data['gender'] == 'male') {
         </section>
         <!-- Page Footer-->
         <?php require_once('../includes/footer.php'); ?>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Change Password</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form id="password">
+                  <!--current password -->
+                  <div>
+                    <label for="update_current_password">Current Password</label>
+                    <input class="form-control" name="update_current_password" type="password" id="update_current_password">
+                    <span class="text-danger  fw-bold" id="update_current_password"></span>
+                  </div>
+                  <!-- new Password -->
+                  <div>
+                    <label for="new_password">New Password</label>
+                    <input class="form-control" name="new_password" type="password" id="new_password">
+                    <span class="text-danger  fw-bold" id="password_err"></span>
+                  </div>
+                  <!-- confirm password -->
+                  <div>
+                    <label for="confirm_password">Confirm Password</label>
+                    <input class="form-control" name="confirm_password" type="password" id="confirm_password">
+                    <span class="text-danger  fw-bold" id="password_err"></span>
+                  </div>
+                  <div id="password_status"></div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" id="close_modal" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -153,30 +160,18 @@ if ($data['gender'] == 'male') {
 <script>
   $(document).ready(function() {
     $('#formid').submit(function(event) {
-      event.preventDefault(); // Prevent the default form submission
-      // Get values from form inputs
+      event.preventDefault();
+
       var id = $('#id').val();
       var name = $('input[name="name"]').val();
       var email = $('input[name="email"]').val();
       var current_password = $('input[name="current_password"]').val();
-      var new_password = $('input[name="new_password"]').val();
-      var confirm_password = $('input[name="confirm_password"]').val();
-      if (new_password != confirm_password) {
-        $("#status").html(`<p class="alert alert-danger">New password and confirm Password not matching</p>`);
-        refreshErrors();
-        return;
-      }
-      if (!current_password) {
-        $("#status").html(`<p class="alert alert-danger">Current Password is empty</p>`);
-        refreshErrors();
-        return;
-      }
+
       var gender = $('input[name="gender"]:checked').val();
       var fileInput = $('input[name="file"]')[0];
       var file = fileInput.files[0];
       // console.log(name, email, password, gender,id);
 
-      // Create a FormData object and append form data
       var formData = new FormData();
       formData.append('id', id);
       formData.append('name', name);
@@ -187,7 +182,7 @@ if ($data['gender'] == 'male') {
       formData.append('img', file);
 
       $.ajax({
-        url: 'operation.php',
+        url: 'ajax_files/update.php',
         type: 'POST',
         data: formData,
         contentType: false,
@@ -204,18 +199,47 @@ if ($data['gender'] == 'male') {
         },
       });
 
-      function refreshErrors() {
-        setTimeout(function() {
-          $("#status").html('');
-        }, 3000);
-      }
-      // if (name.trim() === '' || email.trim() === '' || password.trim() === '',gender.trim() === '' || file === null) {
-      //     $("#status").html('<p class="alert alert-danger">Please fill all fields</p>');
-      //     refreshErrors();
-      //     return;
-      // }
     });
   });
+
+  function refreshErrors() {
+    setTimeout(function() {
+      $("#status").html('');
+      $("#password_status").html('')
+    }, 3000);
+  }
+  $('#password').submit(function(event) {
+    event.preventDefault();
+    // console.log("l")
+    var update_current_password = $('input[name="update_current_password"]').val();
+    var new_password = $('input[name="new_password"]').val();
+    var confirm_password = $('input[name="confirm_password"]').val();
+    if (new_password !== confirm_password) {
+      $("#password_status").html(`<p class="alert alert-danger">New password and confirm Password not matching</p>`);
+      refreshErrors();
+      return;
+    }
+    $.ajax({
+      url: 'ajax_files/updatepassword.php',
+      type: 'POST',
+      dataType: "json",
+      data: {
+        update_current_password: update_current_password,
+        new_password: new_password,
+        confirm_password: confirm_password,
+      },
+      success: function(status) {
+        console.log(status)
+        if (status['status']) {
+          $("#password_status").html(`<p class="alert alert-success">${status['message']}</p>`);
+          refreshErrors();
+          // $('#close_modal').trigger('click');
+        }
+        $("#password_status").html(`<p class="alert alert-danger">${status['message']}</p>`);
+        refreshErrors();
+      },
+    })
+  })
 </script>
 
 </html>

@@ -2,12 +2,14 @@
 class Connection
 {
   protected $servername;
+  private $tablename;
   protected $username;
   protected $password;
   protected $conn;
   protected $connection_warning;
   function __construct()
   {
+    $this->tablename = "admin";
     $this->servername = "localhost";
     $this->username = "root";
     $this->password = "";
@@ -33,7 +35,7 @@ class Connection
   
   public function checkUser($email, $password)
   {
-    $query = $this->conn->prepare("select * from admin where email = ? and password = ?");
+    $query = $this->conn->prepare("select * from  $this->tablename where email = ? and password = ?");
     $query->execute([$email, $password]);
     $result = $query->fetch(PDO::FETCH_ASSOC);
     if ($result != 0) {
@@ -47,6 +49,16 @@ class Connection
     $query->execute([$id]);
     $result = $query->fetch(PDO::FETCH_ASSOC);
     return $result;
+  }
+  public function updatePassword($id, $new_password){
+    try{
+
+      $query = $this->conn->prepare("update admin set password = ? where id = ?");
+      $result =  $query->execute([$new_password,$id]);
+    }catch(Exception $e){
+      return false;
+    }
+   return true;
   }
 }
 ?>
