@@ -16,13 +16,13 @@
   <div class="text-uppercase">
     <ul class="list-unstyled ">
       <!-- <li class="sidebar-item "><a href="javascript::" onclick="routeView('pages/countries.php')" class="sidebar-link">kkyk</a></li> -->
-      <li class="sidebar-item "><a href="#" class="sidebar-link">
+      <li class="sidebar-item "><a href="file.php" class="sidebar-link">
           <svg class="svg-icon svg-icon-sm svg-icon-heavy me-xl-2">
             <use xlink:href="#real-estate-1"> </use>
           </svg> <b>Upload Files</b> </a></li>
     </ul>
     <ul class="list-unstyled ">
-      <li class="sidebar-item "><a href="#" class="sidebar-link" name="states" type="submit">
+      <li class="sidebar-item "><a href="permissions.php" class="sidebar-link" name="states" type="submit">
           <svg class="svg-icon svg-icon-sm svg-icon-heavy me-xl-2">
             <use xlink:href="#real-estate-1"> </use>
           </svg><b>Change permissions</b> </a></li>

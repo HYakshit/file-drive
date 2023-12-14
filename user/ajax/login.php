@@ -1,16 +1,20 @@
 <?php
 require_once("../../database/User.php");
+$res = ['status' => true, 'message' => ''];
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
-    print_r($_POST);
-    exit();
+    // print_r($_POST);
+    // exit();
     $email = $_POST['email'];
     $password = $_POST['password'];
-    if (!$email || $password) {
-        echo "empty";
-        return;
-    }
     $obj = new User();
     $result = $obj->checkUser($email, $password);
-   return $result;
+    if($result === null){
+        echo json_encode(['status' => false, 'message' => 'User not found']);
+        return;
+    }else{
+        echo json_encode($res);
+        return;
+    }
+ 
 }
 ?>

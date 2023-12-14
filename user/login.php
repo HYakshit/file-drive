@@ -1,6 +1,7 @@
 <?php
 
 ?>
+
 <head>
     <title>Login</title>
     <!-- Include Bootstrap CSS -->
@@ -48,31 +49,26 @@
             var email_val = $('#loginEmail').val();
             var password_val = $('#loginPassword').val();
             if (!password_val || !email_val) {
-               alert('please enter all fields');
-               return;
+                alert('please enter all fields');
+                return;
             }
             $.ajax({
                 url: 'ajax/login.php',
                 type: 'POST',
-                data:{
-                    email:email_val,
-                    password:password_val,
-                }
-                // dataType: 'json',
+                dataType: 'json',
+                data: {
+                    email: email_val,
+                    password: password_val,
+                },
                 success: function (res) {
-                    // console.log(res);
-                    if (res == null) {//if there is no user
-                        alert("User not found");
-                    } else {// successfull login
+                    if (res['status']) {
+                        $('#status').html(`<p class="alert alert-danger">${res['message']}</p>`);
+                        setTimeout(function () {
+                            $('#status').html('');
+                        }, 2000);
+                    } else {
                         window.location.href = 'home.php';
-                        // let name = res['name'];
-                        // $('#card_header').text('Welcome ' + name);
-                        // $('.card-body').hide();
                     }
-                    setTimeout(function () {
-                        $('#email_err').text('');
-                        $('#password_err').text('');
-                    }, 2000);
                 },
             });
         });

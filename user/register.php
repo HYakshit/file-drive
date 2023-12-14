@@ -33,14 +33,15 @@
                     </div>
                     <div class="form-group  mt-1">
                         <label for="registerPassword">Password:</label>
-                        <input type="password" class="form-control" minlength="8" id="registerPassword"
+                        <input type="password" class="form-control" id="registerPassword"
                             placeholder="Enter password">
                     </div>
                     <div class="form-group  mt-1">
                         <label for="cpassword">Confirm Password:</label>
-                        <input type="password" class="form-control" minlength="8" id="cpassword"
+                        <input type="password" class="form-control" id="cpassword"
                             placeholder="Confirm password">
                     </div>
+                    <div id="status"></div>
                     <button type="submit" class="btn mt-1 btn-success">Register</button>
                     <a href="login.php" class="btn mt-1 btn-success">login</a>
                 </form>
@@ -56,25 +57,29 @@
             let email = $('#registerEmail').val();
             let password = $('#registerPassword').val();
             let cpassword = $('#cpassword').val();
-         
+         console.log(name,email,password,cpassword);
             if (!name || !email || !password || !cpassword) {
                 alert('Please fill all fields');
+                return;
             }
             else if (password !== cpassword) {
                 alert('Passwords and Confirm password is different!');
+                return;
             }
             else {
                 $.ajax({
-                    url: '../database/User.php',
+                    url: 'ajax/register.php',
                     type: 'post',
-                    data: { name, email, password, cpassword, gender, },
+                    dataType: "json",
+                    data: { name, email, password, cpassword,},
                     success: function (res) {
-                        console.log(res);
-                        // alert(res['message']);
-                        // if (res['status']) {// if user registered
-                        //     window.location.href = 'welcome.php';
-                        //     $('form')[0].reset();
-                        // }
+                        if(!res['status']){
+                            $('#status').html(`<p class="alert alert-danger">${res['message']}</p>`);
+                        }else{
+
+                            $('#status').html(`<p class="alert alert-success">${res['message']}</p>`);
+                            window.location.href = 'home.php';
+                        }
                     }
                 });
             }
