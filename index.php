@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       header('location:admin/index.php');
     } else {
       $warrning = 'Admin does not exists';
-    }
+    } 
   }
 }
 ?>

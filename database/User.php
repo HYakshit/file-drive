@@ -9,7 +9,7 @@ class User extends Connection
         parent::__construct();
         $this->tablename = "user";
     }
-    public function checkUser($email, $password)
+     public function checkUser($email, $password)
     {
         $query = $this->conn->prepare("select * from  $this->tablename where email = ? and password = ?");
         $query->execute([$email, $password]);
@@ -45,6 +45,8 @@ class User extends Connection
     }
     function changeStatus($id, $status)
     {
+        // echo $id;
+        // exit();
         try {
             $query = $this->conn->prepare("update $this->tablename set status = ? where id = ?");
             $result = $query->execute([$status, $id]);

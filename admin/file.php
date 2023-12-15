@@ -55,15 +55,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col">
+                                    <div class="col-md-10">
                                         <form method="post" enctype="multipart/form-data">
 
                                             <!-- categories -->
                                             <div class="form-group  mb-2">
                                                 <label class="Hedvig Letters Sans sans-serif">Enter Max File
                                                     Size</label>
-                                                <input required placeholder="In Bytes" class="form-control"
-                                                    type="number" name="size">
+                                                <input required placeholder="In Bytes" class="form-control" type="number" name="size">
                                             </div>
                                             <!-- file -->
                                             <div class="form-group  mb-2">
@@ -73,9 +72,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                                             </div>
                                             <p id="status"></p>
                                             <!-- submit -->
-                                            <button type="button" id="submit" name="submit"
-                                                class="btn mb-2 btn-success">Upload</button>
+                                            <button type="button" id="submit" name="submit" class="btn mb-2 btn-success">Upload</button>
                                         </form>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn mt-2 btn-primary w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            Add Categories
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -83,32 +87,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                     </div>
                 </section>
                 <!-- modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="exampleModalLabel">Change Password</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
-                                <form id="password">
-                                
-                                    <!-- confirm password -->
+                            <form id="category">
+                                <div class="modal-body">
+                                    <!-- Category -->
                                     <div>
-                                        <label for="category">Confirm Password</label>
-                                        <input class="form-control" name="category" type="text"
-                                            id="category">
-                                        <span class="text-danger  fw-bold" id="password_err"></span>
+                                        <label for="category">Category</label>
+                                        <input class="form-control" name="category" type="text" id="category">
                                     </div>
                                     <div id="category_status"></div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" id="close_modal" class="btn  btn-secondary"
-                                    data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Add</button>
-                            </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" id="close_modal" class="btn  btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Add</button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -122,22 +120,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     <?php require_once('../includes/footer_links.php'); ?>
 </body>
 <script>
-    // $(document).ready(function (){
-    //     $('#approve').click(function(){
-    //         $id=$(this).val();
-    //      $.ajax
+    $(document).ready(function() {
+        $('#category').submit(function() {
+            url: 
+            $.ajax
 
-    //     })
+        })
 
-    // });
+    });
 
     function refreshErrors() {
-        setTimeout(function () {
+        setTimeout(function() {
             $("#status").html('');
             $("#password_status").html('')
         }, 3000);
     }
-
 </script>
 
 </html>

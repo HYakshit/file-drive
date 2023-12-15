@@ -56,6 +56,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col">
+                                        <?php
+                                    if(empty($users)){
+                                                    echo "No Users found";
+                                                    return;
+                                                } ?>
                                         <table class="table mt-3" border="1">
                                             <thead class="text-white bg-danger">
                                                 <th>No.</th>
@@ -67,6 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                                             </thead>
                                             <tbody>
                                                 <?php
+                                         
                                                 $num = 1;
                                                 foreach ($users as $index => $row) {
                                                     echo
