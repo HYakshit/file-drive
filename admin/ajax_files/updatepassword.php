@@ -6,8 +6,6 @@ require_once('../../database/Connection.php');
 $status = ['status'=>true,'message'=>'Passsword Successfully Updated'];
 $obj = new Connection();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // print_r($status);
-    // exit();
     $update_current_password = $_POST['update_current_password'];
     $new_password = $_POST['new_password'];
     if ($update_current_password !== $_SESSION['admin']['password']) {

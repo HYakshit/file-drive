@@ -210,7 +210,6 @@ if ($data['gender'] == 'male') {
   }
   $('#password').submit(function(event) {
     event.preventDefault();
-    // console.log("l")
     var update_current_password = $('input[name="update_current_password"]').val();
     var new_password = $('input[name="new_password"]').val();
     var confirm_password = $('input[name="confirm_password"]').val();

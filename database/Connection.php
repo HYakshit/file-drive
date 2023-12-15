@@ -31,14 +31,16 @@ class Connection
     } else {
       echo "Error While Updating";
     }
-  }
+  } 
   
   public function checkUser($email, $password)
   {
     $query = $this->conn->prepare("select * from  $this->tablename where email = ? and password = ?");
     $query->execute([$email, $password]);
     $result = $query->fetch(PDO::FETCH_ASSOC);
-    if ($result != 0) {
+    // print_r($result);
+    // exit();
+    if($result != null) {
       return $result;
     }
     return null;
@@ -54,11 +56,14 @@ class Connection
     try{
 
       $query = $this->conn->prepare("update admin set password = ? where id = ?");
-      $result =  $query->execute([$new_password,$id]);
+      $query->execute([$new_password,$id]);
     }catch(Exception $e){
       return false;
     }
    return true;
   }
+ 
+
+
 }
 ?>

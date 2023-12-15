@@ -8,13 +8,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     $password = $_POST['password'];
     $obj = new User();
     $result = $obj->checkUser($email, $password);
-    if($result === null){
+    if($result == null){
         echo json_encode(['status' => false, 'message' => 'User not found']);
         return;
     }else{
         echo json_encode($res);
-        return;
     }
- 
 }
 ?>

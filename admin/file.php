@@ -18,8 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     }
     $users = $obj->getUsers();
 }
-// echo ('<pre>');
-// print_r($users);
+$category_array = $obj->getCategories();
+// print_r($category_array);
 // exit();
 ?>
 <html>
@@ -56,13 +56,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-10">
-                                        <form method="post" enctype="multipart/form-data">
-
-                                            <!-- categories -->
+                                        <!-- categories -->
+                                        <form id="file_form" method="post" enctype="multipart/form-data">
                                             <div class="form-group  mb-2">
-                                                <label class="Hedvig Letters Sans sans-serif">Enter Max File
-                                                    Size</label>
-                                                <input required placeholder="In Bytes" class="form-control" type="number" name="size">
+                                                <label class="Hedvig Letters Sans sans-serif">Select Category</label>
+                                                <?php
+                                                foreach ($category_array as $index => $row) {
+                                                    echo "<input class='p-2 form-check-input' type='checkbox' name='Category' id='$row[id]' value='$row[name]'
+                                                  class='custom'/>
+                                              <label class='me-3 form-check-label' for='$row[id]'>$row[name]</label>";
+                                                }
+                                                ?>
                                             </div>
                                             <!-- file -->
                                             <div class="form-group  mb-2">
@@ -72,69 +76,63 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                                             </div>
                                             <p id="status"></p>
                                             <!-- submit -->
-                                            <button type="button" id="submit" name="submit" class="btn mb-2 btn-success">Upload</button>
+                                            <button type="submit" id="submit" name="submit"
+                                                class="btn mb-2 btn-success">Upload</button>
                                         </form>
                                     </div>
-                                    <div class="col-md-2">
-                                        <!-- Button trigger modal -->
-                                        <button type="button" class="btn mt-2 btn-primary w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                            Add Categories
-                                        </button>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section>
-                <!-- modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Change Password</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <form id="category">
-                                <div class="modal-body">
-                                    <!-- Category -->
-                                    <div>
-                                        <label for="category">Category</label>
-                                        <input class="form-control" name="category" type="text" id="category">
-                                    </div>
-                                    <div id="category_status"></div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" id="close_modal" class="btn  btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Add</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <!-- Page Footer-->
-                <?php require_once('../includes/footer.php'); ?>
             </div>
         </div>
+        </section>
+        <!-- Edit category modal -->
+        <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Categories</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="edit_category">
+                        <div class="modal-body">
+                            <!-- Category -->
+                            <div>
+                                <label for="category">Category</label>
+                                <input class="form-control" name="category" type="text" id="category">
+                            </div>
+                            <div id="category_status"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="close_modal" class="btn  btn-secondary"
+                                data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Page Footer-->
+        <?php require_once('../includes/footer.php'); ?>
+    </div>
+    </div>
     </div>
     <!-- footer links -->
     <?php require_once('../includes/footer_links.php'); ?>
 </body>
 <script>
-    $(document).ready(function() {
-        $('#category').submit(function() {
-            url: 
-            $.ajax
+    $(document).ready(function () {
 
-        })
-
+        function refreshErrors() {
+            setTimeout(function () {
+                $("#status").html('');
+                $("#password_status").html('')
+            }, 3000);
+        }
     });
 
-    function refreshErrors() {
-        setTimeout(function() {
-            $("#status").html('');
-            $("#password_status").html('')
-        }, 3000);
-    }
 </script>
 
 </html>

@@ -9,19 +9,17 @@ class User extends Connection
         parent::__construct();
         $this->tablename = "user";
     }
-     public function checkUser($email, $password)
+    public function checkUser($email, $password)
     {
-        $query = $this->conn->prepare("select * from  $this->tablename where email = ? and password = ?");
+        $query = $this->conn->prepare("select * from  user where email = ? and password = ?");
         $query->execute([$email, $password]);
         $result = $query->fetch(PDO::FETCH_ASSOC);
-        if ($result != 0) {
-            $_SESSION['user'] = $result;
-            // print_r($_SESSION['user']);
-            // exit();
+        if ($result != null) {
             return $result;
         }
         return null;
     }
+
     public function store($name, $email, $password)
     {
         try {
@@ -50,6 +48,30 @@ class User extends Connection
         try {
             $query = $this->conn->prepare("update $this->tablename set status = ? where id = ?");
             $result = $query->execute([$status, $id]);
+            return $result;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public function addCategory($category)
+    {
+        // echo $category;
+        // exit();
+        try {
+            $query = $this->conn->prepare("insert into category (name) values(?)");
+            $query->execute([$category]);
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+   public function getCategories()
+    {
+        try {
+            $query = $this->conn->prepare("select * from category");
+            $query->execute();
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         } catch (Exception $e) {
             return false;
