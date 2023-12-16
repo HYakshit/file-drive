@@ -66,7 +66,7 @@ class User extends Connection
             return false;
         }
     }
-   public function getCategories()
+    public function getCategories()
     {
         try {
             $query = $this->conn->prepare("select * from category");
@@ -77,5 +77,26 @@ class User extends Connection
             return false;
         }
     }
+    public function editCategory($index, $category)
+    { 
+        
+        try {
+            $query = $this->conn->prepare("update category set name= ? where id= ?");
+            $result =  $query->execute([$category, $index]);
+            return $result;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+    public function deleteCategory($index)
+    { 
+        
+        try {
+            $query = $this->conn->prepare("delete from category where id= ?");
+            $result =  $query->execute([$index]);
+            return $result;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
 }
-?>

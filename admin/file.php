@@ -4,20 +4,7 @@ if (!isset($_SESSION["admin"])) {
     header("location:../");
 }
 $obj = new User();
-$users = $obj->getUsers();
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    if (isset($_GET['approve'])) {
-        $id = $_GET['approve'];
-        $status = 'Approved';
-        $obj->changeStatus($id, $status);
-    }
-    if (isset($_GET['reject'])) {
-        $id = $_GET['reject'];
-        $status = 'Rejected';
-        $obj->changeStatus($id, $status);
-    }
-    $users = $obj->getUsers();
-}
+
 $category_array = $obj->getCategories();
 // print_r($category_array);
 // exit();
@@ -76,8 +63,7 @@ $category_array = $obj->getCategories();
                                             </div>
                                             <p id="status"></p>
                                             <!-- submit -->
-                                            <button type="submit" id="submit" name="submit"
-                                                class="btn mb-2 btn-success">Upload</button>
+                                            <button type="submit" id="submit" name="submit" class="btn mb-2 btn-success">Upload</button>
                                         </form>
                                     </div>
 
@@ -88,32 +74,7 @@ $category_array = $obj->getCategories();
             </div>
         </div>
         </section>
-        <!-- Edit category modal -->
-        <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Categories</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form id="edit_category">
-                        <div class="modal-body">
-                            <!-- Category -->
-                            <div>
-                                <label for="category">Category</label>
-                                <input class="form-control" name="category" type="text" id="category">
-                            </div>
-                            <div id="category_status"></div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" id="close_modal" class="btn  btn-secondary"
-                                data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Add</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+
         <!-- Page Footer-->
         <?php require_once('../includes/footer.php'); ?>
     </div>
@@ -123,16 +84,45 @@ $category_array = $obj->getCategories();
     <?php require_once('../includes/footer_links.php'); ?>
 </body>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
+        var category = $('input[name="Category"]:checked').serialize();
+        var file = $('input[name="file"]')[0].files;
+
+        // Create a FormData object and append form data
+        var formData = new FormData();
+        formData.append('path', category);
+        formData.append('file', file);
+
+        $.ajax({
+            url: 'ajax/php',
+            type: 'post',
+            contentType: false,
+            processData: false,
+            data: {
+                data: formData,
+            },
+            success: function(res) {
+                console.log(res);
+                if (res == 'false') {
+                    $('#repeat_err').text('Error');
+                    setTimeout(function() {
+                        $('span').text('');
+                    }, 1500);
+                } else {
+                    list();
+                    $('#repeat_err').text('Data Stored Successfully');
+                }
+            }
+        })
+
 
         function refreshErrors() {
-            setTimeout(function () {
+            setTimeout(function() {
                 $("#status").html('');
                 $("#password_status").html('')
             }, 3000);
         }
     });
-
 </script>
 
 </html>

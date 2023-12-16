@@ -42,7 +42,6 @@ $category_array = $obj->getCategories();
                                     <?php
                                     if (empty($category_array)) {
                                         echo "No Categories found";
-
                                     } ?>
                                     <table class="table mt-3" border="1">
                                         <thead class="">
@@ -57,7 +56,7 @@ $category_array = $obj->getCategories();
                                             $num = 1;
                                             foreach ($category_array as $index => $row) {
                                                 echo
-                                                    "<tr>
+                                                "<tr>
                                                     <td>" . $num . "</td>
                                                     <td>" . $row['name'] . "</td> 
                                         <td><button id='edit' data-category='$row[name]' value='$row[id]' class='btn btn-sm btn-warning edit-btn'>
@@ -73,8 +72,7 @@ $category_array = $obj->getCategories();
                                 </div>
                                 <div class="col-md-2">
                                     <!-- Button trigger modal -->
-                                    <button type="button" class="btn mt-2 btn-primary w-100" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal">
+                                    <button type="button" class="btn mt-2 btn-primary w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                         Add Categories
                                     </button>
                                 </div>
@@ -84,8 +82,7 @@ $category_array = $obj->getCategories();
             </div>
             </section>
             <!--Add category modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -102,8 +99,7 @@ $category_array = $obj->getCategories();
                                 <div id="category_status"></div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" id="close_modal" class="btn  btn-secondary"
-                                    data-bs-dismiss="modal">Close</button>
+                                <button type="button" id="close_modal" class="btn  btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Add</button>
                             </div>
                         </form>
@@ -111,8 +107,7 @@ $category_array = $obj->getCategories();
                 </div>
             </div>
             <!--Edit Modal -->
-            <div class="modal fade" id="edit_modal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
+            <div class="modal fade" id="edit_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -121,12 +116,10 @@ $category_array = $obj->getCategories();
                         </div>
                         <div class="modal-body">
                             <label class="label-material" for="updatedcountry">Category</label>
-                            <input class="form-control" id="edit_category" type="text" name="updatedcountry"
-                                autocomplete="off" required>
+                            <input class="form-control" id="edit_category" type="text" name="updatedcountry" autocomplete="off" required>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" id="close_modal" class="btn btn-secondary"
-                                data-bs-dismiss="modal">Close</button>
+                            <button type="button" id="close_modal" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="button" id="update" class="btn btn-primary">Save changes</button>
                         </div>
                     </div>
@@ -140,18 +133,19 @@ $category_array = $obj->getCategories();
     <?php require_once('../includes/footer_links.php'); ?>
 </body>
 <script>
-    $(document).ready(function () {
-        $('#category_form').submit(function (event) {
+    $(document).ready(function() {
+        $('#category_form').submit(function(event) {
             event.preventDefault();
             var category = $('#category').val();
             $.ajax({
-                url: "ajax_files/category.php",
+                url: "ajax_files/category_ajax.php",
                 type: "post",
                 dataType: 'json',
                 data: {
+                    action: 'add',
                     category: category,
                 },
-                success: function (res) {
+                success: function(res) {
                     if (res['status']) {
                         // $('#category_status').html(`<p class="alert alert-success">${res['message']}</p>`);
                         location.reload();
@@ -163,7 +157,7 @@ $category_array = $obj->getCategories();
             });
         });
 
-        $(document).on("click", "#edit", function () {
+        $(document).on("click", "#edit", function() {
             let index = $(this).val();
 
             // get edit values
@@ -173,41 +167,44 @@ $category_array = $obj->getCategories();
             $('#edit_category').val(category);
             $('#edit_modal').modal('show');
 
-            $('#update').click(function () {
-                let category =  $('#edit_category').val();
+            $('#update').click(function() {
+                let category = $('#edit_category').val();
                 $.ajax({
-
-                    url: 'ajax/operations.php',
+                    type: "post",
+                    dataType: 'json',
+                    url: 'ajax_files/category_ajax.php',
                     data: {
+                        action: 'edit',
                         index: index,
                         category: category,
-                       
+
                     },
-                    success: function (res) {
-                        location.reload();
+                    success: function(res) {
+                        console.log(res);
                     }
                 });
             })
         });
         // delete
-        $(document).on("click", "#delete", function () {
+        $(document).on("click", "#delete", function() {
             let index = $(this).val();
             $.ajax({
-                url: '../database/operations.php',
+                type: "post",
+                dataType: 'json',
+                url: 'ajax_files/category_ajax.php',
                 data: {
-                    actionby: 'country',
+                    action: 'delete',
                     index: index,
                 },
-                success: function (res) {
-                    location.reload();
-                    console.log("sucess");
+                success: function(res) {
+                    console.log(res);
                 },
             });
         });
     });
 
     function refreshErrors() {
-        setTimeout(function () {
+        setTimeout(function() {
             $("#status").html('');
             $("#password_status").html('')
         }, 3000);
