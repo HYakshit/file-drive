@@ -78,23 +78,77 @@ class User extends Connection
         }
     }
     public function editCategory($index, $category)
-    { 
-        
+    {
+
         try {
             $query = $this->conn->prepare("update category set name= ? where id= ?");
-            $result =  $query->execute([$category, $index]);
+            $result = $query->execute([$category, $index]);
             return $result;
         } catch (Exception $e) {
             return false;
         }
     }
     public function deleteCategory($index)
-    { 
-        
+    {
+
         try {
             $query = $this->conn->prepare("delete from category where id= ?");
-            $result =  $query->execute([$index]);
+            $result = $query->execute([$index]);
             return $result;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+    public function storeFile($file_name)
+    {
+        try {
+            $query = $this->conn->prepare("insert into files (name) values(?)");
+            $result = $query->execute([$file_name]);
+            if ($result) {
+                $query = $this->conn->prepare("select id from files order by id desc limit 1");
+                $id = $query->execute();
+                $id = $query->fetch(PDO::FETCH_ASSOC);
+                return $id['id'];
+            }
+
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public function storeCategory($file_id, $category_id)
+    {
+        // echo $file_id."cate".$category_id;
+        // exit;
+        try {
+            $query = $this->conn->prepare("insert into file_categories (file_id,category_id) values(?,?)");
+            $result = $query->execute([$file_id, $category_id]);
+            return $result;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+    public function getApprovedUsers()
+    {
+        try {
+            $query = $this->conn->prepare("select * from user where status = 'Approved'");
+            $query->execute();
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+    public function getFiles()
+    {
+        try {
+            $query = $this->conn->prepare("SELECT * FROM files INNER JOIN file_categories ON files.id = file_categories.file_id INNER JOIN category ON file_categories.category_id = category.id");
+            $query->execute();
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            echo "<pre>";
+            print_r($result);
+            exit;
+            // return $result;
         } catch (Exception $e) {
             return false;
         }

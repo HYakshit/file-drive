@@ -33,5 +33,11 @@
             <use xlink:href="#real-estate-1"> </use>
           </svg><b>Edit Categories</b> </a></li>
     </ul>
+    <ul class="list-unstyled ">
+      <li class="sidebar-item "><a href="share.php" class="sidebar-link" name="states" type="submit">
+          <svg class="svg-icon svg-icon-sm svg-icon-heavy me-xl-2">
+            <use xlink:href="#real-estate-1"> </use>
+          </svg><b>Share Files</b> </a></li>
+    </ul>
   </div>
 </nav>

@@ -229,12 +229,12 @@ if ($data['gender'] == 'male') {
       },
       success: function(status) {
         console.log(status)
-        if (status['status']) {
-          $("#password_status").html(`<p class="alert alert-success">${status['message']}</p>`);
+        if (!status['status']) {
+          $("#password_status").html(`<p class="alert alert-danger">${status['message']}</p>`);
           refreshErrors();
           // $('#close_modal').trigger('click');
         }
-        $("#password_status").html(`<p class="alert alert-danger">${status['message']}</p>`);
+        $("#password_status").html(`<p class="alert alert-success">${status['message']}</p>`);
         refreshErrors();
       },
     })

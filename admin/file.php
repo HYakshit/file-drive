@@ -49,7 +49,7 @@ $category_array = $obj->getCategories();
                                                 <label class="Hedvig Letters Sans sans-serif">Select Category</label>
                                                 <?php
                                                 foreach ($category_array as $index => $row) {
-                                                    echo "<input class='p-2 form-check-input' type='checkbox' name='Category' id='$row[id]' value='$row[name]'
+                                                    echo "<input class='p-2 form-check-input' type='checkbox' name='category[]' id='$row[id]' value='$row[id]'
                                                   class='custom'/>
                                               <label class='me-3 form-check-label' for='$row[id]'>$row[name]</label>";
                                                 }
@@ -63,10 +63,10 @@ $category_array = $obj->getCategories();
                                             </div>
                                             <p id="status"></p>
                                             <!-- submit -->
-                                            <button type="submit" id="submit" name="submit" class="btn mb-2 btn-success">Upload</button>
+                                            <button type="submit" id="submit" name="submit"
+                                                class="btn mb-2 btn-success">Upload</button>
                                         </form>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -84,42 +84,33 @@ $category_array = $obj->getCategories();
     <?php require_once('../includes/footer_links.php'); ?>
 </body>
 <script>
-    $(document).ready(function() {
-        var category = $('input[name="Category"]:checked').serialize();
-        var file = $('input[name="file"]')[0].files;
-
-        // Create a FormData object and append form data
-        var formData = new FormData();
-        formData.append('path', category);
-        formData.append('file', file);
-
-        $.ajax({
-            url: 'ajax/php',
-            type: 'post',
-            contentType: false,
-            processData: false,
-            data: {
+    $(document).ready(function () {
+        $('#file_form').submit(function (event) {
+            event.preventDefault();
+            var formData = new FormData($(this)[0]);
+            $.ajax({
+                url: 'ajax_files/file_ajax.php',
+                type: 'post',
+                dataType: 'json',
+                contentType: false,
+                processData: false,
                 data: formData,
-            },
-            success: function(res) {
-                console.log(res);
-                if (res == 'false') {
-                    $('#repeat_err').text('Error');
-                    setTimeout(function() {
-                        $('span').text('');
-                    }, 1500);
-                } else {
-                    list();
-                    $('#repeat_err').text('Data Stored Successfully');
-                }
-            }
-        })
-
+                success: function (res) {
+                    console.log(res);
+                    if (!res['status']) {
+                        $("#status").html(`<p class="alert alert-danger">${res['message']}</p>`);
+                        refreshErrors();
+                        return;
+                    }
+                    $("#status").html(`<p class="alert alert-success">${res['message']}</p>`);
+                    refreshErrors();
+                },
+            });
+        });
 
         function refreshErrors() {
-            setTimeout(function() {
+            setTimeout(function () {
                 $("#status").html('');
-                $("#password_status").html('')
             }, 3000);
         }
     });
