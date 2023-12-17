@@ -118,7 +118,7 @@ class User extends Connection
 
     public function storeCategory($file_id, $category_id)
     {
-        // echo $file_id."cate".$category_id;
+        // echo $file_id."cate".$category_id; 
         // exit;
         try {
             $query = $this->conn->prepare("insert into file_categories (file_id,category_id) values(?,?)");
@@ -142,7 +142,7 @@ class User extends Connection
     public function getFiles()
     {
         try {
-            $query = $this->conn->prepare("SELECT * FROM files INNER JOIN file_categories ON files.id = file_categories.file_id INNER JOIN category ON file_categories.category_id = category.id");
+            $query = $this->conn->prepare("SELECT * FROM file_categories  INNER JOIN files ON file_categories.file_id = files.id");
             $query->execute();
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
             echo "<pre>";

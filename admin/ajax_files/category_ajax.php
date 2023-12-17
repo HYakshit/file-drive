@@ -4,7 +4,7 @@ require_once('../../database/User.php');
 $obj = new User();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $action = $_POST['action'];
-    switch ($action) {
+    switch ($action) { 
         case 'add':
 
             $status = ['status' => true, 'message' => 'Category Added'];
