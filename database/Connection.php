@@ -62,8 +62,5 @@ class Connection
     }
    return true;
   }
- 
-
-
 }
 ?>

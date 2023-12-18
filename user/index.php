@@ -1,4 +1,3 @@
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,9 +28,8 @@
                 <h4>Choose One</h4>
             </div>
             <div class="card-body text-center">
-                <a href='user/login.php' value="login" class="btn btn-primary">Login</a>
-                <a .href='user/register.php' value="register"
-                    class="btn btn-primary">Register</a>
+                <a href='user/login.php' class="btn btn-primary">Login</a>
+                <a href='user/register.php' class="btn btn-primary">Register</a>
 
             </div>
         </div>
@@ -40,5 +38,5 @@
     </div>
 </body>
 <script>
- 
+
 </script>

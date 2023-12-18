@@ -21,6 +21,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         return;
     }
     $img = $_FILES['img'];
+    $check = getimagesize($img["tmp_name"]);
+    if ($check == false) {
+        echo "File is not an image.";
+        return;
+    }
+
     $target_dir = "../../assets/img/";
     $img_name = basename($img["name"]);
     $target_file = $target_dir . $img_name;
@@ -29,15 +35,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // exit();
         $img_to_delete = $target_dir . $_SESSION['img'];
         unlink($img_to_delete);
-    
+
     }
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-    $check = getimagesize($img["tmp_name"]);
-    if ($check == false) {
-        echo "File is not an image.";
-        return;
-    }
+
     if (!move_uploaded_file($img["tmp_name"], $target_file)) {
         echo "Error while uploading the image";
         return;

@@ -68,9 +68,11 @@ $files_array = $obj->getFiles();
                             </div>
                         </div>
                     </div>
+                </section>
+                <!-- Page Footer-->
+                <?php require_once('../includes/footer.php'); ?>
             </div>
         </div>
-        </section>
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -102,10 +104,7 @@ $files_array = $obj->getFiles();
                 </div>
             </div>
         </div>
-        <!-- Page Footer-->
-        <?php require_once('../includes/footer.php'); ?>
-    </div>
-    </div>
+
     </div>
     <!-- footer links -->
     <?php require_once('../includes/footer_links.php'); ?>

@@ -71,12 +71,13 @@ $category_array = $obj->getCategories();
                             </div>
                         </div>
                     </div>
+                </section>
+                <!-- Page Footer-->
+                <?php require_once('../includes/footer.php'); ?>
             </div>
         </div>
-        </section>
     </div>
-    <!-- Page Footer-->
-    <?php require_once('../includes/footer.php'); ?>
+
     <!-- footer links -->
     <?php require_once('../includes/footer_links.php'); ?>
 </body>
