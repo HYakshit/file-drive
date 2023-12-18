@@ -64,11 +64,11 @@ $files_array = $obj->getSharedFiles($id);
                                             "<tr><td>" . $num . "</td>
                                         <td>" . $row['name'] . "</td> 
                                         <td>" . $row['date'] . "</td>
-                                        <td><button name='view' value='$row[id]' class='btn btn-sm btn-warning edit-btn'>
+                                        <td><a href='access_file.php?nama=$row[name]&action=show' value='$row[id]' class='btn btn-sm btn-warning edit-btn'>
                                          View
-                                     </button>
+                                     </a>
                                       </td>
-                                     <td><button name='download' value='$row[id]' class='btn btn-sm btn-success'>Download</button></td></tr>";
+                                     <td><a href='access_file.php?nama=$row[name]&action=download' value='$row[id]' class='btn btn-sm btn-success'>Download</a></td></tr>";
                                     $num++;
                                     } ?>
                                 </tbody>

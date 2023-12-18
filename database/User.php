@@ -153,15 +153,26 @@ class User extends Connection
             return false;
         }
     }
-    public function storeFiles($user_id, $file_id)
+    public function alreadyShared($file_id,$user_id)
     {
-     
+        $query = $this->conn->prepare("select * from  shared_files where file_id = ? and user_id = ?");
+        $query->execute([$file_id,$user_id]);
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        if ($result != null) {
+            return $result;
+        }
+        return null;
+    }
+    public function storeFiles($file_id,$user_id)
+    {
+        try{
+
             $query = $this->conn->prepare("insert into shared_files (file_id,user_id) values(?,?)");
             $result = $query->execute([$file_id, $user_id]);
             return $result;
-        // } catch (Exception $e) {
-        //     return false;
-        // }
+        }catch(Exception $e){
+            return false;
+        }
     }
     public function getSharedFiles($id)
     {

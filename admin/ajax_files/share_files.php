@@ -6,7 +6,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $users_array = $_POST['users'];
     $file_id = $_POST['file_id'];
     foreach($users_array as $user_id){
-        $result=$obj->storeFiles($user_id,$file_id);
+        $result=$obj->alreadyShared($file_id,$user_id);
+        if($result != null){
+            echo json_encode(['status' => false, 'message' => 'Already Shared']);
+            return;
+        }
+        $result=$obj->storeFiles($file_id,$user_id);
         if($result == false){
             $status['status']=false;
             $status['message']='Error Occured';

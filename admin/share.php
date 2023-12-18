@@ -87,11 +87,11 @@ $files_array = $obj->getFiles();
                                                   class='custom'/>
                                               <label class='me-3 form-check-label' for='$user[id]'>$user[name]</label><br>
                                              ";
-                                             
+
                             }
                             ?>
-                             <input id='id_saver' name='file_id' value="" class='d-none'/>
-                             <div id="status"></div>
+                            <input id='id_saver' name='file_id' value="" class='d-none' />
+                            <div id="status"></div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" id="close_modal" class="btn btn-secondary"
@@ -141,6 +141,12 @@ $files_array = $obj->getFiles();
                     refreshErrors();
                 },
             });
+            function refreshErrors() {
+                setTimeout(function () {
+                    $("#status").html('');
+                    $("#password_status").html('')
+                }, 3000);
+            }
         });
     });
 
