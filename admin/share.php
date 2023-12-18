@@ -2,9 +2,9 @@
 require("../database/User.php");
 $obj = new User();
 $approved_users = $obj->getApprovedUsers();
-$files_array = [];
+$files_array = $obj->getFiles();
 // echo"<pre>";
-$rr;
+// $rr;
 
 ?>
 <!DOCTYPE html>
@@ -38,7 +38,7 @@ $rr;
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-10">
+                                    <div class="col">
                                         <table class="table mt-3" border="1">
                                             <thead class="">
                                                 <th>No.</th>
@@ -51,11 +51,11 @@ $rr;
                                                 $num = 1;
                                                 foreach ($files_array as $index => $row) {
                                                     echo
-                                                    "<tr>
+                                                        "<tr>
                                                     <td>" . $num . "</td>
                                                     <td>" . $row['name'] . "</td> 
                                                     <td>" . $row['category_id'] . "</td> 
-                                     <td>  <button type='button' class='btn mt-2 btn-primary w-100' data-bs-toggle='modal' data-bs-target='#exampleModal'>
+                                     <td>  <button type='button' value='$row[id]' class='btn action btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal'>
                                      share
                                  </button></td></tr>
                                     ";
@@ -64,12 +64,6 @@ $rr;
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div class="col-md-2">
-                                    <!-- Button trigger modal -->
-                                    <button type='button' class='btn mt-2 btn-primary w-100' data-bs-toggle='modal' data-bs-target='#exampleModal'>
-                                        share
-                                    </button>
-                                </div>
                                 </div>
                             </div>
                         </div>
@@ -85,20 +79,25 @@ $rr;
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Select Users</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <form id="users_form">
-                        <!-- <label class='me-3 form-check-label' >Select Users</label> -->
+                    <form id="users_form">
+                        <div class="modal-body">
+                            <!-- <label class='me-3 form-check-label' >Select Users</label> -->
                             <?php foreach ($approved_users as $index => $user) {
                                 echo "<input class='p-2 form-check-input' type='checkbox' name='users[]' id='$user[id]' value='$user[id]'
                                                   class='custom'/>
-                                              <label class='me-3 form-check-label' for='$user[id]'>$user[name]</label><br>";
+                                              <label class='me-3 form-check-label' for='$user[id]'>$user[name]</label><br>
+                                             ";
+                                             
                             }
                             ?>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" id="close_modal" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Share</button>
-                    </div>
+                             <input id='id_saver' name='file_id' value="" class='d-none'/>
+                             <div id="status"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="close_modal" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Share</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -112,6 +111,39 @@ $rr;
     <?php require_once('../includes/footer_links.php'); ?>
 </body>
 <script>
-    
+    $(document).ready(function () {
+        $('.action').click(function () {
+            $file_id = $(this).val();
+            console.log($file_id);
+            $('#id_saver').val($file_id);
+
+        });
+        $('#users_form').submit(function (event) {
+            event.preventDefault();
+            var formData = new FormData($(this)[0]);
+            // console.log(formData);
+            // formData.append()
+            $.ajax({
+                url: 'ajax_files/share_files.php',
+                type: 'post',
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (res) {
+                    console.log(res);
+                    if (!res['status']) {
+                        $("#status").html(`<p class="alert alert-danger">${res['message']}</p>`);
+                        refreshErrors();
+                        return;
+                    }
+                    $("#status").html(`<p class="alert alert-success">${res['message']}</p>`);
+                    refreshErrors();
+                },
+            });
+        });
+    });
+
 </script>
+
 </html>

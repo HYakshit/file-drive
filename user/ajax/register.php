@@ -1,5 +1,4 @@
 <?php
-// session_destroy();
 require_once('../../database/User.php');
 $obj = new User();
 $res = ['status' => true, 'message' => 'Successfully Registered'];

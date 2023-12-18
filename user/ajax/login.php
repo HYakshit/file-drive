@@ -1,4 +1,6 @@
 <?php
+@session_start();
+$_SESSION['user']='';
 require_once("../../database/User.php");
 $res = ['status' => true, 'message' => ''];
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -12,6 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         echo json_encode(['status' => false, 'message' => 'User not found']);
         return;
     }else{
+        $_SESSION['user']=$result;
         echo json_encode($res);
     }
 }

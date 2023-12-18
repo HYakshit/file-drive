@@ -1,5 +1,5 @@
 <?php
-session_start();
+@session_start();
 require_once('Connection.php');
 class User extends Connection
 {
@@ -142,13 +142,37 @@ class User extends Connection
     public function getFiles()
     {
         try {
-            $query = $this->conn->prepare("SELECT * FROM file_categories  INNER JOIN files ON file_categories.file_id = files.id");
+            $query = $this->conn->prepare("SELECT * FROM files  INNER JOIN file_categories ON  files.id = file_categories.file_id");
             $query->execute();
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
-            echo "<pre>";
-            print_r($result);
-            exit;
-            // return $result;
+            // echo "<pre>";
+            // print_r($result);
+            // exit;
+            return $result;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+    public function storeFiles($user_id, $file_id)
+    {
+     
+            $query = $this->conn->prepare("insert into shared_files (file_id,user_id) values(?,?)");
+            $result = $query->execute([$file_id, $user_id]);
+            return $result;
+        // } catch (Exception $e) {
+        //     return false;
+        // }
+    }
+    public function getSharedFiles($id)
+    {
+        try {
+            $query = $this->conn->prepare("select * from files inner join shared_files on files.id = shared_files.file_id where shared_files.user_id = ?");
+            $query->execute([$id]);
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            // echo "<pre>";
+            // print_r($result);
+            // exit;
+            return $result;
         } catch (Exception $e) {
             return false;
         }

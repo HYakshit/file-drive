@@ -1,13 +1,8 @@
-<?php
-session_start();
-// print_r($_SESSION['user']);
-// session_destroy();
-?>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Welcome</title>
 
     <!-- Include Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -34,9 +29,9 @@ session_start();
                 <h4>Choose One</h4>
             </div>
             <div class="card-body text-center">
-                <button onclick="location.href='login.php'" value="login" class="btn btn-primary">Login</button>
-                <button onclick="location.href='register.php'" value="register"
-                    class="btn btn-primary">Register</button>
+                <a href='user/login.php' value="login" class="btn btn-primary">Login</a>
+                <a .href='user/register.php' value="register"
+                    class="btn btn-primary">Register</a>
 
             </div>
         </div>
