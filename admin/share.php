@@ -113,7 +113,7 @@ $files_array = $obj->getFiles();
     $(document).ready(function () {
         $('.action').click(function () {
             $file_id = $(this).val();
-            console.log($file_id);
+            // console.log($file_id);
             $('#id_saver').val($file_id);
 
         });

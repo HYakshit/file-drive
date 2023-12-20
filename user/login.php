@@ -6,14 +6,11 @@
 <head>
     <title>Login</title>
     <!-- Include Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <!-- Include Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-    <!-- Include jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    < <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <!-- Include Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <!-- Include jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -31,8 +28,7 @@
                     </div>
                     <div class="form-group  mt-1">
                         <label for="loginPassword">Password:</label>
-                        <input name="password" type="password" class="form-control" id="loginPassword"
-                            placeholder="Enter password">
+                        <input name="password" type="password" class="form-control" id="loginPassword" placeholder="Enter password">
                         <span id="password_err" class="text-danger"></span>
                     </div>
                     <div id="status"></div>
@@ -44,8 +40,8 @@
     </div>
 </body>
 <script>
-    $(document).ready(function () {
-        $("form").submit(function (event) {
+    $(document).ready(function() {
+        $("form").submit(function(event) {
             event.preventDefault();
             var email_val = $('#loginEmail').val();
             var password_val = $('#loginPassword').val();
@@ -61,18 +57,22 @@
                     email: email_val,
                     password: password_val,
                 },
-                success: function (res) {
+                success: function(res) {
                     console.log(res);
                     if (res['status']) {
                         window.location.href = 'home.php';
                     } else {
                         $('#status').html(`<p class="alert alert-danger">${res['message']}</p>`);
-                        setTimeout(function () {
-                            $('#status').html('');
-                        }, 2000);
+                        refreshErrors();
                     }
                 },
             });
+
+            function refreshErrors() {
+                setTimeout(function() {
+                    $("#status").html('');
+                }, 3000);
+            }
         });
     });
 </script>
