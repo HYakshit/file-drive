@@ -35,27 +35,28 @@ $category_array = $obj->getCategories();
                 </header>
                 <!-- Main Section-->
                 <section class="pt-2">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-10">
-                                    <?php
-                                    if (empty($category_array)) {
-                                        echo "No Categories found";
-                                    } ?>
-                                    <table class="table mt-3" border="1">
-                                        <thead class="">
-                                            <th>No.</th>
-                                            <th>Name</th>
-                                            <th>Edit </th>
-                                            <th>Delete</th>
-                                        </thead>
-                                        <tbody>
-                                            <?php
+                    <div class="container">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <?php
+                                        if (empty($category_array)) {
+                                            echo "No Categories found";
+                                        } ?>
+                                        <table class="table mt-3" border="1">
+                                            <thead class="">
+                                                <th>No.</th>
+                                                <th>Name</th>
+                                                <th>Edit </th>
+                                                <th>Delete</th>
+                                            </thead>
+                                            <tbody>
+                                                <?php
 
-                                            $num = 1;
-                                            foreach ($category_array as $index => $row) {
-                                                echo
+                                                $num = 1;
+                                                foreach ($category_array as $index => $row) {
+                                                    echo
                                                     "<tr>
                                                     <td>" . $num . "</td>
                                                     <td>" . $row['name'] . "</td> 
@@ -65,29 +66,29 @@ $category_array = $obj->getCategories();
                                       </td>
                                      <td><button id='delete' value='$row[id]' class='btn btn-sm btn-danger'>Delete</button></td></tr>
                                     ";
-                                                $num++;
-                                            } ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="col-md-2">
-                                    <!-- Button trigger modal -->
-                                    <button type="button" class="btn mt-2 btn-primary w-100" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal">
-                                        Add Categories
-                                    </button>
+                                                    $num++;
+                                                } ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn mt-2 btn-primary w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            Add Categories
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
 
                 </section>
                 <!-- Page Footer-->
                 <?php require_once('../includes/footer.php'); ?>
             </div>
             <!--Add category modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -104,8 +105,7 @@ $category_array = $obj->getCategories();
                                 <div id="category_status"></div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" id="close_modal" class="btn  btn-secondary"
-                                    data-bs-dismiss="modal">Close</button>
+                                <button type="button" id="close_modal" class="btn  btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Add</button>
                             </div>
                         </form>
@@ -113,8 +113,7 @@ $category_array = $obj->getCategories();
                 </div>
             </div>
             <!--Edit Modal -->
-            <div class="modal fade" id="edit_modal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
+            <div class="modal fade" id="edit_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -123,12 +122,10 @@ $category_array = $obj->getCategories();
                         </div>
                         <div class="modal-body">
                             <label class="label-material" for="updatedcountry">Category</label>
-                            <input class="form-control" id="edit_category" type="text" name="updatedcountry"
-                                autocomplete="off" required>
+                            <input class="form-control" id="edit_category" type="text" name="updatedcountry" autocomplete="off" required>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" id="close_modal" class="btn btn-secondary"
-                                data-bs-dismiss="modal">Close</button>
+                            <button type="button" id="close_modal" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="button" id="update" class="btn btn-primary">Save changes</button>
                         </div>
                     </div>
@@ -141,8 +138,8 @@ $category_array = $obj->getCategories();
     <?php require_once('../includes/footer_links.php'); ?>
 </body>
 <script>
-    $(document).ready(function () {
-        $('#category_form').submit(function (event) {
+    $(document).ready(function() {
+        $('#category_form').submit(function(event) {
             event.preventDefault();
             var category = $('#category').val();
             $.ajax({
@@ -153,7 +150,7 @@ $category_array = $obj->getCategories();
                     action: 'add',
                     category: category,
                 },
-                success: function (res) {
+                success: function(res) {
                     if (res['status']) {
                         // $('#category_status').html(`<p class="alert alert-success">${res['message']}</p>`);
                         location.reload();
@@ -165,7 +162,7 @@ $category_array = $obj->getCategories();
             });
         });
 
-        $(document).on("click", "#edit", function () {
+        $(document).on("click", "#edit", function() {
             let index = $(this).val();
 
             // get edit values
@@ -175,7 +172,7 @@ $category_array = $obj->getCategories();
             $('#edit_category').val(category);
             $('#edit_modal').modal('show');
 
-            $('#update').click(function () {
+            $('#update').click(function() {
                 let category = $('#edit_category').val();
                 $.ajax({
                     type: "post",
@@ -187,14 +184,14 @@ $category_array = $obj->getCategories();
                         category: category,
 
                     },
-                    success: function (res) {
+                    success: function(res) {
                         console.log(res);
                     }
                 });
             })
         });
         // delete
-        $(document).on("click", "#delete", function () {
+        $(document).on("click", "#delete", function() {
             let index = $(this).val();
             $.ajax({
                 type: "post",
@@ -204,7 +201,7 @@ $category_array = $obj->getCategories();
                     action: 'delete',
                     index: index,
                 },
-                success: function (res) {
+                success: function(res) {
                     console.log(res);
                 },
             });
@@ -212,7 +209,7 @@ $category_array = $obj->getCategories();
     });
 
     function refreshErrors() {
-        setTimeout(function () {
+        setTimeout(function() {
             $("#status").html('');
             $("#password_status").html('')
         }, 3000);

@@ -2,35 +2,18 @@
 session_start();
 $id = $_SESSION['user']['id'];
 // echo $id;
-// exit();
 require("../database/User.php");
 $obj = new User();
+$approvedusers = $obj->getApprovedUsers();
+$approvedIdArray = array_column($approvedusers, 'id');
 $files_array = $obj->getSharedFiles($id);
-// echo '<pre>';
-// print_r($files_array);
 ?>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-
-    <!-- Include Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-    <!-- Include Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-    <!-- Include jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <!-- css -->
-    <!-- <link rel="stylesheet" href="home.css"> -->
-    <!-- google fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <?php require_once('../includes/head_links.php'); ?>
 </head>
 
 <body>
@@ -44,6 +27,9 @@ $files_array = $obj->getSharedFiles($id);
                         <div class="col">
                             <?php
                             if (empty($files_array)) {
+                                echo "No files shared";
+                                return;
+                            } else if (!(in_array($id, $approvedIdArray))) {
                                 echo " User have no permission";
                                 return;
                             } ?>
@@ -61,7 +47,7 @@ $files_array = $obj->getSharedFiles($id);
                                     $num = 1;
                                     foreach ($files_array as $index => $row) {
                                         echo
-                                            "<tr><td>" . $num . "</td>
+                                        "<tr><td>" . $num . "</td>
                                         <td>" . $row['name'] . "</td> 
                                         <td>" . $row['date'] . "</td>
                                         <td><a href='access_file.php?nama=$row[name]&action=show' value='$row[id]' class='btn btn-sm btn-warning edit-btn'>
@@ -69,7 +55,7 @@ $files_array = $obj->getSharedFiles($id);
                                      </a>
                                       </td>
                                      <td><a href='access_file.php?nama=$row[name]&action=download' value='$row[id]' class='btn btn-sm btn-success'>Download</a></td></tr>";
-                                    $num++;
+                                        $num++;
                                     } ?>
                                 </tbody>
                             </table>

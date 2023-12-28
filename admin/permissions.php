@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="robots" content="all,follow">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!-- head links -->
     <?php require_once('../includes/head_links.php'); ?>
 </head>
@@ -51,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 </header>
                 <!-- Main Section-->
                 <section class="pt-2">
-                    <div class="container ">
+                    <div class="container">
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
@@ -62,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                                                     return;
                                                 } ?>
                                         <table class="table mt-3" border="1">
-                                            <thead class="text-white bg-danger">
+                                            <thead class="text-white">
                                                 <th>No.</th>
                                                 <th>Name</th>
                                                 <th>Email</th>

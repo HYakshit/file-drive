@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row gy-2">
       <div class="col-sm-6 text-sm-start">
-        <p class="mb-0">Akshit Tour And TRAVEL &copy; 2017-Present</p>
+        <p class="mb-0">File Drive &copy; 2017-Present</p>
       </div>
 
     </div>
