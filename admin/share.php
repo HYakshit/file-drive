@@ -1,9 +1,15 @@
 <?php
 require("../database/User.php");
-$obj = new User();
-$approved_users = $obj->getApprovedUsers();
-$files_array = $obj->getFiles();
+if (!isset($_SESSION["admin"])) {
+    header("location:../");
+}
+$object = new User();
+$approved_users = $object->getApprovedUsers();
+$files_array = $object->getFiles();
 // echo"<pre>";
+// print_r($files_array);
+// exit();
+// $object->getApprovedUsers();
 // $rr;
 
 ?>
@@ -43,19 +49,28 @@ $files_array = $obj->getFiles();
                                             <thead class="">
                                                 <th>No.</th>
                                                 <th>file Name</th>
-                                                <th>category ID </th>
+                                                <th>category Name</th>
                                                 <th>Action</th>
                                             </thead>
                                             <tbody>
                                                 <?php
+                                                // echo $categories = $object->getFileCategory($row['id']);
+                                                if(!isset($files_array)){
+                                                    return;
+                                                }
                                                 $num = 1;
                                                 foreach ($files_array as $index => $row) {
-                                                    echo
+                                                   
+                                                //    $names = $object->getFileCategories($row['id']);
+                                                //    $categories = implode(', ',$row['$category_id']);
+                                               
+                                                 
+                                                    echo 
                                                         "<tr>
                                                     <td>" . $num . "</td>
                                                     <td>" . $row['name'] . "</td> 
                                                     <td>" . $row['category_id'] . "</td> 
-                                     <td>  <button type='button' value='$row[id]' class='btn action btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal'>
+                                     <td>  <button type='button' value='$row[file_id]' class='btn action btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal'>
                                      share
                                  </button></td></tr>
                                     ";

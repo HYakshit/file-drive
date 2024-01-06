@@ -8,16 +8,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST['id'];
     $name = $_POST['name'];
     $email = $_POST['email'];
-    $current_password = $_POST['current_password'];
+    // $current_password = $_POST['current_password'];
     $gender = $_POST['gender'];
-    if ($current_password != $_SESSION['admin']['password']) {
-        echo "Wrong Current Password!";
-        return;
-    }
+    // if ($current_password != $_SESSION['admin']['password']) {
+    //     echo "Wrong Current Password!";
+    //     return;
+    // }
 
-    if (!isset($_FILES['img'])) {
+    if (!isset($_FILES['img'])) {//if there is no image
         $img = $_SESSION['img'];
-        $obj->update($name, $email, $current_password, $gender, $img, $id);
+        $obj->update($name, $email, $gender, $img, $id);
         return;
     }
     $img = $_FILES['img'];
@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error while uploading the image";
         return;
     }
-    $obj->update($name, $email, $current_password, $gender, $img_name, $id);
+    $obj->update($name, $email, $gender, $img_name, $id);
     $_SESSION['img'] = $img_name;
 }
 ?>

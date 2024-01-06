@@ -77,6 +77,35 @@ class User extends Connection
             return false;
         }
     }
+    // public function getFileCategories($id)
+    // {
+    //     try {
+    //         $query = $this->conn->prepare("SELECT * FROM file_categories
+    //         INNER JOIN category ON file_categories.category_id = category.id
+    //         WHERE file_categories.file_id = ?");
+    //         $query->execute([$id]);
+    //         $result = $query->fetchAll(PDO::FETCH_ASSOC);
+    //         $categories = array_column($result, 'name');
+    //         return $categories;
+    //     } catch (Exception $e) {
+    //         return false;
+    //     }
+    // }
+    public function getFileCategories($id)
+    {
+        try {
+            $query = $this->conn->prepare("select category_id from file_categories where file_id = ?");
+            $query->execute([$id]);
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            $categories = array_column($result, 'category_id');
+            //     echo "<pre>";
+            // print_r($categories);
+            // exit;
+            return $categories;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
     public function editCategory($index, $category)
     {
 
@@ -110,7 +139,6 @@ class User extends Connection
                 $id = $query->fetch(PDO::FETCH_ASSOC);
                 return $id['id'];
             }
-
         } catch (Exception $e) {
             return false;
         }
@@ -145,32 +173,38 @@ class User extends Connection
             $query = $this->conn->prepare("SELECT * FROM files  INNER JOIN file_categories ON  files.id = file_categories.file_id");
             $query->execute();
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
-            // echo "<pre>";
-            // print_r($result);
-            // exit;
+
+            $files = [];
+            $previous = 0;
+            foreach ($result as $key => $row) {//to get unique files
+                if ($row['file_id'] !== $previous) {
+                    $files[] = $row;
+                }
+                $previous = $row['file_id'];
+            }
             return $result;
         } catch (Exception $e) {
             return false;
         }
     }
-    public function alreadyShared($file_id,$user_id)
+    public function alreadyShared($file_id, $user_id)
     {
         $query = $this->conn->prepare("select * from  shared_files where file_id = ? and user_id = ?");
-        $query->execute([$file_id,$user_id]);
+        $query->execute([$file_id, $user_id]);
         $result = $query->fetch(PDO::FETCH_ASSOC);
         if ($result != null) {
             return $result;
         }
         return null;
     }
-    public function storeFiles($file_id,$user_id)
+    public function storeFiles($file_id, $user_id)
     {
-        try{
+        try {
 
             $query = $this->conn->prepare("insert into shared_files (file_id,user_id) values(?,?)");
             $result = $query->execute([$file_id, $user_id]);
             return $result;
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return false;
         }
     }

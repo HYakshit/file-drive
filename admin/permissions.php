@@ -5,19 +5,30 @@ if (!isset($_SESSION["admin"])) {
 }
 $obj = new User();
 $users = $obj->getUsers();
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    if (isset($_GET['approve'])) {
-        $id = $_GET['approve'];
-        $status = 'Approved';
-        $obj->changeStatus($id, $status);
-    }
-    if (isset($_GET['reject'])) {
-        $id = $_GET['reject'];
-        $status = 'Rejected';
-        $obj->changeStatus($id, $status);
-    }
-    $users = $obj->getUsers();
-}
+// if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+// print_r($_GET);
+// return;
+// if (isset($_GET['status'])) {
+//     $status = $_GET['status'];
+//     $id = $_GET['id'];
+//     if ($status == 'Approved') {
+//         $obj->changeStatus($id, 'Rejected');
+//         return;
+//     }
+//     $obj->changeStatus($id, 'Approved');
+// }
+// if (isset($_GET['approve'])) {
+//     $id = $_GET['approve'];
+//     $status = 'Approved';
+//     $obj->changeStatus($id, $status);
+// }
+// if (isset($_GET['reject'])) {
+//     $id = $_GET['reject'];
+//     $status = 'Rejected';
+//     $obj->changeStatus($id, $status);
+// }
+// }
+$users = $obj->getUsers();
 // echo ('<pre>');
 // print_r($users);
 // exit();
@@ -58,36 +69,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                                 <div class="row">
                                     <div class="col">
                                         <?php
-                                    if(empty($users)){
-                                                    echo "No Users found";
-                                                    return;
-                                                } ?>
+                                        if (empty($users)) {
+                                            echo "No Users found";
+                                            return;
+                                        } ?>
                                         <table class="table mt-3" border="1">
                                             <thead class="text-white">
                                                 <th>No.</th>
                                                 <th>Name</th>
                                                 <th>Email</th>
                                                 <th>Status</th>
-                                                <th>Edit </th>
-                                                <th>Delete</th>
+
                                             </thead>
                                             <tbody>
                                                 <?php
-                                         
+
                                                 $num = 1;
                                                 foreach ($users as $index => $row) {
                                                     echo
-                                                        "<tr><td>" . $num . "</td>
+                                                    "<tr><td>" . $num . "</td>
                                         <td>" . $row['name'] . "</td> 
                                         <td>" . $row['email'] . "</td>
-                                        <td>" . $row['status'] . "</td>
-                                        <form>
-                                        <td><button name='approve' value='$row[id]' class='btn btn-sm btn-warning edit-btn'>
-                                         Approve
+                                        <td>
+                                      
+                                        <button id='$row[id]' value='$row[status]' class='btn btn-sm btn-warning buttonStatus'>
+                                        $row[status]
                                      </button>
-                                      </td>
-                                     <td><button name='reject' value='$row[id]' class='btn btn-sm btn-danger'>Reject</button></td></tr>
-                                     </form>";
+                
+                               </td></tr>
+                                       ";
                                                     $num++;
                                                 } ?>
                                             </tbody>
@@ -107,22 +117,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     <?php require_once('../includes/footer_links.php'); ?>
 </body>
 <script>
-    // $(document).ready(function (){
-    //     $('#approve').click(function(){
-    //         $id=$(this).val();
-    //      $.ajax
+    $(document).ready(function() {
+        $('.buttonStatus').click(function() {
+            $status = $(this).val();
+            $id = $(this).attr('id');
+            //   console.log("status",$status,"id",$id);
+            $.ajax({
+                url: 'ajax_files/change_status.php',
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    id: $id,
+                    status: $status,
+                },
+                success: function(response) {
+                  location.reload();
+                   
+                },
+            });
 
-    //     })
+        })
 
-    // });
+    });
 
     function refreshErrors() {
-        setTimeout(function () {
+        setTimeout(function() {
             $("#status").html('');
             $("#password_status").html('')
         }, 3000);
     }
-
 </script>
 
 </html>

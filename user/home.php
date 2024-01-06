@@ -7,6 +7,10 @@ $obj = new User();
 $approvedusers = $obj->getApprovedUsers();
 $approvedIdArray = array_column($approvedusers, 'id');
 $files_array = $obj->getSharedFiles($id);
+// echo"<pre>";
+// print_r($approvedIdArray);
+// print_r($id);
+// exit();
 ?>
 
 <head>
@@ -29,7 +33,8 @@ $files_array = $obj->getSharedFiles($id);
                             if (empty($files_array)) {
                                 echo "No files shared";
                                 return;
-                            } else if (!(in_array($id, $approvedIdArray))) {
+                            } 
+                            if (!(in_array($id, $approvedIdArray))) {
                                 echo " User have no permission";
                                 return;
                             } ?>
