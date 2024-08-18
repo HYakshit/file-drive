@@ -173,7 +173,6 @@ class User extends Connection
             $query = $this->conn->prepare("SELECT * FROM files  INNER JOIN file_categories ON  files.id = file_categories.file_id");
             $query->execute();
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
-
             $files = [];
             $previous = 0;
             foreach ($result as $key => $row) {//to get unique files
@@ -214,9 +213,6 @@ class User extends Connection
             $query = $this->conn->prepare("select * from files inner join shared_files on files.id = shared_files.file_id where shared_files.user_id = ?");
             $query->execute([$id]);
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
-            // echo "<pre>";
-            // print_r($result);
-            // exit;
             return $result;
         } catch (Exception $e) {
             return false;

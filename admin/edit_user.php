@@ -76,12 +76,6 @@ if ($data['gender'] == 'male') {
                   <input class="form-control" value="<?= $data['email'] ?>" name="email" type="email" id="email">
                   <span class="text-danger  fw-bold" id="email_err"></span>
                 </div>
-                <!--current password -->
-                <!-- <div>
-                  <label for="current_password">Current Password</label>
-                  <input class="form-control" name="current_password" type="password" id="current_password">
-                  <span class="text-danger  fw-bold" id="cupassword_err"></span>
-                </div> -->
                 <!-- Button trigger modal -->
                 <button type="button" class="btn mt-2 btn-secondary w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
                   Change Password
@@ -212,12 +206,12 @@ if ($data['gender'] == 'male') {
     });
   });
 
-  function refreshErrors() {
-    setTimeout(function() {
-      $("#status").html('');
-      $("#password_status").html('')
-    }, 3000);
-  }
+  // function refreshErrors() {
+  //   setTimeout(function() {
+  //     $("#status").html('');
+  //     $("#password_status").html('')
+  //   }, 3000);
+  // }
   $('#password').submit(function(event) {
     event.preventDefault();
     var update_current_password = $('input[name="update_current_password"]').val();

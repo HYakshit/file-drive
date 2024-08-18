@@ -12,20 +12,20 @@ class Connection
     $this->tablename = "admin";
     $this->servername = "localhost";
     $this->username = "root";
-    $this->password = "";
+    $this->password = "1111";
     try {
-      $this->conn = new PDO("mysql:host=$this->servername;dbname=files_project", $this->username, $this->password);
+      $this->conn = new PDO("mysql:host=$this->servername;dbname=akshit", $this->username, $this->password);
       // set the PDO error mode to exception
       // $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch (PDOException $e) {
-      echo "Connection failed" . $e->getMessage();
-      $this->connection_warning = "Connection failed";
+      echo "Server connection failed with error --" . $e->getMessage();
+      $this->connection_warning = "Server connection failed";
     }
   }
-  public function update($name, $email, $password, $gender, $img_name,$id)
+  public function update($name, $email, $gender,$img,$id)
   { // to store user who have permission
-    $query = $this->conn->prepare("update admin set name = ?, email= ? , password= ?, gender= ? , img_url = ? where id = ?");
-    $query->execute([$name, $email, $password, $gender, $img_name,$id]);
+    $query = $this->conn->prepare("update admin set name = ?, email= ? , gender= ? , img_url = ? where id = ?");
+    $query->execute([$name, $email, $gender,$img,$id]);
     if ($query) {
       echo "success";
     } else {
@@ -61,6 +61,14 @@ class Connection
       return false;
     }
    return true;
+  }
+  public function deleteImage($id){
+    try{
+      $query = $this->conn->prepare("update admin set img_url = 'default.jpg' where id = ?");
+      $query->execute([$id]);
+    }catch(Exception $e){
+      return false;
+    }
   }
 }
 ?>

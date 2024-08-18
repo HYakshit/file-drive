@@ -3,9 +3,13 @@ require_once('../../database/User.php');
 $obj = new User();
 $status = ['status' => true, 'message' => 'File Uploaded'];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if(empty($_POST['category'])){
+        echo json_encode(['status' => false, 'message' => 'Please select category']);
+        return;
+    }
     $category_array = $_POST['category'];
 
-    if (empty($_FILES['file']['name'])) {
+    if (empty($_FILES['file']['name']) || count($_FILES['file'])<2) {
         echo json_encode(['status' => false, 'message' => 'Please select a file to upload.']);
         return;
     } else {
@@ -23,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             return;
         } else {
             $check = move_uploaded_file($_FILES['file']["tmp_name"], $file);
-            if ($check) {
+            if ($check) {//file uploaded 
                 $id = $obj->storeFile($_FILES['file']['name']);
                 if ($id) {
                     foreach ($category_array as $val) {

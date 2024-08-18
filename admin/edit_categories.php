@@ -187,6 +187,7 @@ $category_array = $obj->getCategories();
                     },
                     success: function(res) {
                         console.log(res);
+                        location.reload();
                     }
                 });
             })
@@ -204,6 +205,7 @@ $category_array = $obj->getCategories();
                 },
                 success: function(res) {
                     console.log(res);
+                    location.reload();
                 },
             });
         });

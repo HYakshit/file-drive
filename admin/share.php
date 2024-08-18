@@ -6,12 +6,6 @@ if (!isset($_SESSION["admin"])) {
 $object = new User();
 $approved_users = $object->getApprovedUsers();
 $files_array = $object->getFiles();
-// echo"<pre>";
-// print_r($files_array);
-// exit();
-// $object->getApprovedUsers();
-// $rr;
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,17 +48,11 @@ $files_array = $object->getFiles();
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                // echo $categories = $object->getFileCategory($row['id']);
                                                 if(!isset($files_array)){
                                                     return;
                                                 }
                                                 $num = 1;
                                                 foreach ($files_array as $index => $row) {
-                                                   
-                                                //    $names = $object->getFileCategories($row['id']);
-                                                //    $categories = implode(', ',$row['$category_id']);
-                                               
-                                                 
                                                     echo 
                                                         "<tr>
                                                     <td>" . $num . "</td>

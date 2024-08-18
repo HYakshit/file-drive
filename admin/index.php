@@ -61,7 +61,7 @@ if (!empty($data['img_url'])) {
                                                 ?>
                                             </div>
                                             <!-- file -->
-                                            <div class="form-group  mb-2">
+                                            <div class="form-group  mt-4">
                                                 <label class="Hedvig Letters Sans sans-serif">Select File to
                                                     Upload</label>
                                                 <input required class="form-control" type="file" name="file">

@@ -1,7 +1,6 @@
 <?php
 session_start();
 $id = $_SESSION['user']['id'];
-// echo $id;
 require("../database/User.php");
 $obj = new User();
 $approvedusers = $obj->getApprovedUsers();
@@ -9,7 +8,6 @@ $approvedIdArray = array_column($approvedusers, 'id');
 $files_array = $obj->getSharedFiles($id);
 // echo"<pre>";
 // print_r($approvedIdArray);
-// print_r($id);
 // exit();
 ?>
 
@@ -21,13 +19,12 @@ $files_array = $obj->getSharedFiles($id);
 </head>
 
 <body>
+<?php require_once('includes/header.php'); ?>
     <section class="pt-2">
         <div class="container ">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-
-
                         <div class="col">
                             <?php
                             if (empty($files_array)) {
