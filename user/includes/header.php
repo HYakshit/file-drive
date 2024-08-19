@@ -16,7 +16,7 @@
       <div class="navbar-holder d-flex align-items-center justify-content-between w-100">
         <!-- Navbar Header-->
         <div class="navbar-header">
-          <!-- Navbar Brand --><a class="navbar-brand d-none d-sm-inline-block" href="index.php">
+          <!-- Navbar Brand --><a class="navbar-brand d-none d-sm-inline-block" href="home.php">
             <div class="brand-text d-none d-lg-inline-block"><strong>File Drive</strong></div>
             <div class="brand-text d-none d-sm-inline-block d-lg-none"><strong></strong></div>
           </a>

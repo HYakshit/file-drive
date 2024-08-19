@@ -51,7 +51,7 @@
                     password: password_val,
                 },
                 success: function(res) {
-                    console.log(res);
+                    // console.log(res);
                     if (res['status']) {
                         window.location.href = 'home.php';
                     } else {

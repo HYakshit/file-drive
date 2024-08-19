@@ -2,7 +2,6 @@
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $name = $_GET['nama'];
     $action = $_GET['action'];
-    // print_R($action);
     if ($action == 'download') {
         download($name);
     } else {
@@ -29,10 +28,7 @@ function download($name)
     $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
     $target_dir = "../admin/files/$extension";
     $path = $target_dir . '/' . $file;
-    // print_r($path);
     if (file_exists($path)) {
-        // echo"gg";
-        // exit;
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename=' . basename($file));

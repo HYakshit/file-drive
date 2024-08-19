@@ -1,14 +1,9 @@
 <?php
 session_start();
-$id = $_SESSION['user']['id'];
-require("../database/User.php");
-$obj = new User();
-$approvedusers = $obj->getApprovedUsers();
-$approvedIdArray = array_column($approvedusers, 'id');
-$files_array = $obj->getSharedFiles($id);
-// echo"<pre>";
-// print_r($approvedIdArray);
-// exit();
+$logedUser = $_SESSION['user'];
+if (!isset($_SESSION["user"])) {
+    header("location:index.php");
+}
 ?>
 
 <head>
@@ -19,54 +14,43 @@ $files_array = $obj->getSharedFiles($id);
 </head>
 
 <body>
-<?php require_once('includes/header.php'); ?>
-    <section class="pt-2">
-        <div class="container ">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            <?php
-                            if (empty($files_array)) {
-                                echo "No files shared";
-                                return;
-                            } 
-                            if (!(in_array($id, $approvedIdArray))) {
-                                echo " User have no permission";
-                                return;
-                            } ?>
-                            <table class="table mt-3" border="1">
-                                <thead class="text-white bg-primary">
-                                    <th>No.</th>
-                                    <th>File Name</th>
-                                    <th>Date Shared</th>
-                                    <th>view</th>
-                                    <th>Download</th>
-                                </thead>
-                                <tbody>
-                                    <?php
-
-                                    $num = 1;
-                                    foreach ($files_array as $index => $row) {
-                                        echo
-                                        "<tr><td>" . $num . "</td>
-                                        <td>" . $row['name'] . "</td> 
-                                        <td>" . $row['date'] . "</td>
-                                        <td><a href='access_file.php?nama=$row[name]&action=show' value='$row[id]' class='btn btn-sm btn-warning edit-btn'>
-                                         View
-                                     </a>
-                                      </td>
-                                     <td><a href='access_file.php?nama=$row[name]&action=download' value='$row[id]' class='btn btn-sm btn-success'>Download</a></td></tr>";
-                                        $num++;
-                                    } ?>
-                                </tbody>
-                            </table>
+<div class="page">
+        <!-- header -->
+        <?php require_once('includes/header.php'); ?>
+        <div class="page-content d-flex align-items-stretch">
+              <!-- sidebar -->
+              <?php require_once('includes/sidebar.php'); ?>
+            <div class="content-inner w-100">
+                <!-- Page Header-->
+                <header class="bg-white shadow-sm px-4 py-3 z-index-20">
+                    <div class="container-fluid px-0">
+                        <h2 class="mb-0 p-1">Home</h2>
+                    </div>
+                </header>
+                <!-- Main Section-->
+                <section class="pt-2">
+                    <div class="container ">
+                    <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <?php
+                                        echo "<h2>welcome ".$logedUser['name']."</h2>";
+                                        
+                                        ?>
+                                        </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </section>
+                <!-- Page Footer-->
+                <?php require_once('includes/footer.php'); ?>
             </div>
         </div>
-    </section>
+    </div>
 </body>
 <script>
 
