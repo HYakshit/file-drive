@@ -11,7 +11,7 @@ $users = $obj->getUsers();
 $approvedIdArray = array_column($users, 'id');
 $files_array = $obj->getSharedFiles($id);
 // echo"<pre>";
-// print_r($logedUser);
+// print_r($files_array);
 // exit();
 ?>
 
@@ -71,7 +71,7 @@ $files_array = $obj->getSharedFiles($id);
                                                     echo
                                                     "<tr><td>" . $num . "</td>
                                         <td>" . $row['name'] . "</td> 
-                                        <td>" . $date . "</td>
+                                        <td>" . $row['date'] . "</td>
                                         <td><a href='access_file.php?nama=$row[name]&action=show' value='$row[id]' class='btn btn-sm btn-warning edit-btn'>
                                          View
                                      </a>

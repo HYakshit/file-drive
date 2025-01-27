@@ -62,6 +62,7 @@ class Connection
     }
    return true;
   }
+  
   public function deleteImage($id){
     try{
       $query = $this->conn->prepare("update admin set img_url = 'default.jpg' where id = ?");

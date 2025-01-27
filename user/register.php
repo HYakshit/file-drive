@@ -64,7 +64,10 @@
                     },
                     success: function(res) {
                         if (!res['status']) {
-                            $('#status').html(`<p class="alert alert-danger">${res['message']}</p>`);
+                            $('#status').html(`<p class=
+                            
+                            
+                            "alert alert-danger">${res['message']}</p>`);
                             refreshErrors()
                         } else {
                             $('#status').html(`<p class="alert alert-success">${res['message']}</p>`);
